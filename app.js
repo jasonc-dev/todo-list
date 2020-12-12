@@ -116,8 +116,8 @@ app.post("/delete", function(req, res) {
   const checkedItemId = req.body.checkbox;
   const listName = req.body.listName;
 
-  if (listSchema === "Today") {
-    Item.findByIdAndDelete(checkedItemId, function(err) {
+  if (listSchema === _.capitalize("Today")) {
+    Item.findByIdAndRemove(checkedItemId, {new: true}, function(err) {
       if (!err) {
         console.log("successfully deleted checked item");
         res.redirect("/");
@@ -134,13 +134,6 @@ app.post("/delete", function(req, res) {
         }
     });
   }
-});
-
-app.get("/work", function(req, res) {
-  res.render("list", {
-    listTitle: "Work List",
-    newListItems: workItems
-  });
 });
 
 app.get("/about", function(req, res) {
