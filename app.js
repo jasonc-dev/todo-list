@@ -17,6 +17,7 @@ app.use(express.static("public"));
 mongoose.connect("mongodb+srv://admin-jason:test123@cluster0.6fqpy.mongodb.net/todolistDB",
 {useNewUrlParser: true, useUnifiedTopology: true
 });
+mongoose.set('returnOriginal', false);
 
 const itemsSchema = {
   name: String,
@@ -127,7 +128,6 @@ app.post("/delete", function(req, res) {
     List.findOneAndUpdate(
       {name: listName},
       {$pull: {items: {_id: checkedItemId}}},
-      {new: true},
       function(err, foundList) {
         if (!err) {
           res.redirect("/" + listName);
@@ -136,15 +136,22 @@ app.post("/delete", function(req, res) {
   }
 });
 
+app.get("/work", function(req, res) {
+  res.render("list", {
+    listTitle: "Work List",
+    newListItems: workItems
+  });
+});
+
 app.get("/about", function(req, res) {
   res.render("about");
 });
 
 let port = process.env.PORT;
 if (port == null || port == "") {
-  port = 3000;
+  port = 8000;
 }
 
-app.listen(port, function() {
-  console.log("Server has started successfully");
+app.listen(3000, function() {
+  console.log("Server started on port 3000");
 });
