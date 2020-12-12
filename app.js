@@ -127,7 +127,7 @@ app.post("/delete", function(req, res) {
     List.findOneAndUpdate(
       {name: listName},
       {$pull: {items: {_id: checkedItemId}}},
-      {'returnOriginal': false},
+      {new: true},
       function(err, foundList) {
         if (!err) {
           res.redirect("/" + listName);
