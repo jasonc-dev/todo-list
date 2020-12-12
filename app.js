@@ -117,7 +117,7 @@ app.post("/delete", function(req, res) {
   const listName = req.body.listName;
 
   if (listSchema === "Today") {
-    Item.findByIdAndRemove(checkedItemId, {useFindAndModify: false}, function(err) {
+    Item.findByIdAndRemove(checkedItemId, {useFindAndModify: true}, function(err) {
       if (!err) {
         console.log("successfully deleted checked item");
         res.redirect("/");
@@ -127,7 +127,7 @@ app.post("/delete", function(req, res) {
     List.findOneAndUpdate(
       {name: listName},
       {$pull: {items: {_id: checkedItemId}}},
-      {useFindAndModify: false},
+      {useFindAndModify: true},
       function(err, foundList) {
         if (!err) {
           res.redirect("/" + listName);
