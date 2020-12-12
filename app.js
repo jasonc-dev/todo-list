@@ -117,7 +117,11 @@ app.post("/delete", function(req, res) {
   const listName = req.body.listName;
 
   if (listSchema === _.capitalize("Today")) {
-    Item.findByIdAndDelete(checkedItemId, {new: true}, function(err) {
+    Item.findOneAndRemove(
+      {name: listName},
+      {$pull: {items: {_id: checkedItemId}}},
+      {new: true},
+      function(err) {
       if (!err) {
         console.log("successfully deleted checked item");
         res.redirect("/");
