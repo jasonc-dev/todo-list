@@ -117,10 +117,9 @@ app.post("/delete", function(req, res) {
   const listName = req.body.listName;
 
   if (listSchema === _.capitalize("Today")) {
-    Item.findOneAndRemove(
+    Item.findOneAndDelete(
       {name: listName},
       {$pull: {items: {_id: checkedItemId}}},
-      {new: true},
       function(err) {
       if (!err) {
         console.log("successfully deleted checked item");
@@ -131,7 +130,6 @@ app.post("/delete", function(req, res) {
     List.findOneAndUpdate(
       {name: listName},
       {$pull: {items: {_id: checkedItemId}}},
-      {new: true},
       function(err, foundList) {
         if (!err) {
           res.redirect("/" + listName);
