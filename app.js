@@ -17,7 +17,6 @@ app.use(express.static("public"));
 mongoose.connect("mongodb+srv://admin-jason:test123@cluster0.6fqpy.mongodb.net/todolistDB",
 {useNewUrlParser: true, useUnifiedTopology: true
 });
-mongoose.set('returnOriginal', false);
 
 const itemsSchema = {
   name: String,
@@ -128,6 +127,7 @@ app.post("/delete", function(req, res) {
     List.findOneAndUpdate(
       {name: listName},
       {$pull: {items: {_id: checkedItemId}}},
+      {'returnOriginal': false},
       function(err, foundList) {
         if (!err) {
           res.redirect("/" + listName);
